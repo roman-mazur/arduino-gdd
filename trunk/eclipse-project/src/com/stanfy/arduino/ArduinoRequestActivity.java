@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.Toast;
 
 public class ArduinoRequestActivity extends ArduinoTestingActivity {
 
@@ -25,7 +26,23 @@ public class ArduinoRequestActivity extends ArduinoTestingActivity {
 		button.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				sendByte(port, portNumber, mode, value);
+				try {
+					if (inputStream != null) {
+					outputStream.write("Hello world".getBytes());
+					outputStream.flush();
+					final StringBuffer buf = new StringBuffer();
+					final byte[] bbuf = new byte[256];
+					if (inputStream.read(bbuf) > 0) {
+						buf.append(new String(bbuf));
+						Toast.makeText(v.getContext(), buf, Toast.LENGTH_LONG).show();
+					}
+					}
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+//				sendByte(port, portNumber, mode, value);
 			}
 		});
 	}

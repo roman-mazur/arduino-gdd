@@ -17,6 +17,7 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.ParcelFileDescriptor;
 import android.util.Log;
+import android.widget.Toast;
 
 public class ArduinoTestingActivity extends Activity {
 	
@@ -111,6 +112,28 @@ public class ArduinoTestingActivity extends Activity {
 			FileDescriptor descriptor = fileDescriptor.getFileDescriptor();
 			inputStream = new FileInputStream(descriptor);
 			outputStream = new FileOutputStream(descriptor);
+//			new Thread(new Runnable() {
+//				
+//				@Override
+//				public void run() {
+//					try {
+//					while (true) {
+//						Thread.yield();
+//						if (inputStream != null) {
+//					final StringBuffer buf = new StringBuffer();
+//					final byte[] bbuf = new byte[256];
+//						while (inputStream.read(bbuf) > 0) {
+//							buf.append(new String(bbuf));
+//						}
+//					Toast.makeText(ArduinoTestingActivity.this, buf, Toast.LENGTH_LONG).show();
+//						}
+//					}
+//					} catch (IOException e) {
+//						// TODO Auto-generated catch block
+//						e.printStackTrace();
+//					}
+//				}
+//			}).start();
 			Log.i(TAG, "accessory opened");
 		} else {
 			Log.i(TAG, "accessory closed");
