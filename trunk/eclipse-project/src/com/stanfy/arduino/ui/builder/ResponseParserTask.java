@@ -1,6 +1,8 @@
 package com.stanfy.arduino.ui.builder;
 
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import android.view.ViewGroup;
 
@@ -11,6 +13,9 @@ public class ResponseParserTask {
 
   /** Response separator. */
   private static final String SEPARATOR = "Router>";
+
+  /** Errors pattern. */
+  private static final Pattern ERRORS = Pattern.compile("%Error.+\\n");
 
   /** Builder. */
   private UIBuilder builder;
@@ -49,6 +54,8 @@ public class ResponseParserTask {
     if (index < text.length() - SEPARATOR.length() - 1) {
       currentBuffer.append(text.substring(index + SEPARATOR.length()));
     }
+    final Matcher m = ERRORS.matcher(response);
+    response = m.replaceAll("");
     return response;
   }
 
