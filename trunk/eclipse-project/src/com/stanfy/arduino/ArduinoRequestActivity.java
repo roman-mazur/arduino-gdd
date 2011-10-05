@@ -35,17 +35,17 @@ public class ArduinoRequestActivity extends ArduinoBaseActivity implements
     public void handleMessage(final Message msg) {
       switch (msg.what) {
         case MESSAGE_DISPLAY:
-          runOnUiThread(new Runnable() {
-
-            @Override
-            public void run() {
-              if (msg.obj == null) {
-                output.append("Nothing to display\n");
-              } else {
-                output.append(msg.obj.toString() + "\n");
-              }
-            }
-          });
+//          runOnUiThread(new Runnable() {
+//
+//            @Override
+//            public void run() {
+//              if (msg.obj == null) {
+//                output.append("Nothing to display\n");
+//              } else {
+//                output.append(msg.obj.toString() + "\n");
+//              }
+//            }
+//          });
           break;
         default:
       }
