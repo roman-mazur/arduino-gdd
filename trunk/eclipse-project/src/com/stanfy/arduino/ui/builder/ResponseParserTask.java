@@ -28,11 +28,18 @@ public class ResponseParserTask {
    */
   public static enum Command {
     /** <code>show hardware</code>. */
-    SHOW_HARDWARE(new HardwareParser());
+    SHOW_HARDWARE(new HardwareParser(), "show hardware");
 
     final Parser parser;
+    final String command;
 
-    private Command(final Parser p) { this.parser = p; }
+    private Command(final Parser p, final String command) {
+      this.parser = p;
+      this.command = command;
+    }
+
+    /** @return the command */
+    public String getCommand() { return command; }
 
   }
 
