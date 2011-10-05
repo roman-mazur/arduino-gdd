@@ -95,7 +95,9 @@ void printSerialString() {
 
 void setup() {
   Serial.begin(9600);
-  Serial.println("Hello World");
+  Serial.println("Running");
+  
+  pinMode(13, OUTPUT);   
 
   acc.powerOn();  
 }
@@ -110,7 +112,8 @@ void loop () {
   //do somenthing else perhaps wait for other data or read another Serial string
   byte msg[100];
   if (acc.isConnected()) {
-    Serial.println ("Accessory is connected");
+    digitalWrite(13, HIGH);
+    //Serial.println ("Accessory is connected");
     int len = acc.read(msg, sizeof(msg), 1);
     Serial.print("Readed bytes: ");
     Serial.println(len);
@@ -120,7 +123,8 @@ void loop () {
      }
     
   } else {
-    Serial.println ("Accessory is not connected");
+    digitalWrite(13, LOW);
+    //Serial.println ("Accessory is not connected");
   }
   
   //try to print out collected information. it will do it only if there actually is some info.
