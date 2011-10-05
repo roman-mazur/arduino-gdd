@@ -19,6 +19,7 @@ import android.util.Log;
 
 import com.android.future.usb.UsbAccessory;
 import com.android.future.usb.UsbManager;
+import com.stanfy.arduino.util.Utils;
 
 public abstract class ArduinoBaseActivity extends Activity implements Runnable {
 
@@ -149,13 +150,6 @@ public abstract class ArduinoBaseActivity extends Activity implements Runnable {
       if (ret > 0) {
         final String str = new String(buffer, 0, ret);
         onHandleDeviceResponse(str);
-//        runOnUiThread(new Runnable() {
-//
-//          @Override
-//          public void run() {
-//            Toast.makeText(ArduinoBaseActivity.this, str, Toast.LENGTH_SHORT);
-//          }
-//        });
       }
     }
   }

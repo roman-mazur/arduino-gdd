@@ -1,4 +1,4 @@
-package com.stanfy.arduino;
+package com.stanfy.arduino.util;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
