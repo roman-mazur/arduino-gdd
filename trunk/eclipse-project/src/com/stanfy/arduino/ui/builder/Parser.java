@@ -7,6 +7,8 @@ import java.util.List;
  */
 public interface Parser {
 
+  boolean DEBUG = true;
+
   List<UIDirective> parse(final String text);
 
 }
