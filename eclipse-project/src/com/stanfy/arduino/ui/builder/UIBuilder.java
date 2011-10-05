@@ -24,6 +24,7 @@ public class UIBuilder {
     final Runnable task = new Runnable() {
       @Override
       public void run() {
+        container.removeAllViews();
         for (final UIDirective d : directions) { build(d); }
       }
     };
