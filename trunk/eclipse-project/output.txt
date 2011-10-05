@@ -1,0 +1,26 @@
+Cisco Internetwork Operating System Software
+IOS (tm) C805 Software (C805-Y6-MW), Version 12.2(15)T12,  RELEASE SOFTWARE (fc1
+)
+Technical Support: http://www.cisco.com/techsupport
+Copyright (c) 1986-2004 by cisco Systems, Inc.
+Compiled Thu 25-Mar-04 05:37 by cmong
+Image text-base: 0x0017F000, data-base: 0x00877000
+
+ROM: TinyROM version 1.4(1)
+Router uptime is 0 minutes
+System returned to ROM by unknown reload cause - reason ptr 0x2410, PC 0x0, addr
+ess 0x0
+System image file is "flash:c805-y6-mw.122-15.T12.bin"
+
+Cisco C805  (MPC850) processor (revision 0) with 48468K bytes of virtual memory.
+
+Processor board ID FOC08180Z2B (391002144)
+CPU part number 0x2101
+Bridging software.
+1 Ethernet/IEEE 802.3 interface(s)
+1 Serial(sync/async) network interface(s)
+8M bytes of physical memory (DRAM)
+8K bytes of non-volatile configuration memory
+8M bytes of flash on board (4M from flash card)
+
+Configuration register is 0x2102
