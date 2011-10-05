@@ -7,6 +7,8 @@ import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.stanfy.arduino.Animations;
+
 /**
  * @author Roman Mazur (Stanfy - http://www.stanfy.com)
  */
@@ -18,6 +20,7 @@ public class UIBuilder {
 
   public UIBuilder(final ViewGroup container) {
     this.container = container;
+    container.setLayoutAnimation(Animations.goDownAnimationController());
   }
 
   public void publishParseResults(final List<UIDirective> directions) {

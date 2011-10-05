@@ -11,6 +11,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.stanfy.arduino.ui.builder.ResponseParserTask;
@@ -79,6 +80,8 @@ public class ArduinoRequestActivity extends ArduinoBaseActivity implements
     output = (TextView) findViewById(R.id.text);
 
     setupResponseContainer((ViewGroup)findViewById(R.id.response_container));
+
+    final Spinner spinner = (Spinner)findViewById(R.id.command_spinner);
   }
 
   @Override

@@ -3,4 +3,5 @@
     <string name="hello">Hello World, ArduinoTestingActivity!</string>
     <string name="app_name">ArduinoTesting</string>
     <string name="send">Send</string>
+    <string name="command_prompt">Select a command</string>
 </resources>
