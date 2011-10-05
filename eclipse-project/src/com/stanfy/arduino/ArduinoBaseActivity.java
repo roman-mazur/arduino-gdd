@@ -21,7 +21,7 @@ import com.android.future.usb.UsbAccessory;
 import com.android.future.usb.UsbManager;
 
 public abstract class ArduinoBaseActivity extends Activity implements Runnable {
-  
+
   /** Message codes. */
   public static final int MESSAGE_DISPLAY = 1;
 
@@ -39,7 +39,7 @@ public abstract class ArduinoBaseActivity extends Activity implements Runnable {
   ParcelFileDescriptor fileDescriptor;
 
   @Override
-  protected void onCreate(Bundle savedInstanceState) {
+  protected void onCreate(final Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
 
     usbManager = UsbManager.getInstance(getApplicationContext());
@@ -92,11 +92,11 @@ public abstract class ArduinoBaseActivity extends Activity implements Runnable {
   private final BroadcastReceiver usbReceiver = new BroadcastReceiver() {
 
     @Override
-    public void onReceive(Context context, Intent intent) {
-      String action = intent.getAction();
+    public void onReceive(final Context context, final Intent intent) {
+      final String action = intent.getAction();
       if (ACTION_USB_PERMISSION.equals(action)) {
         synchronized (this) {
-          UsbAccessory accessory = UsbManager.getAccessory(intent);
+          final UsbAccessory accessory = UsbManager.getAccessory(intent);
           if (intent
               .getBooleanExtra(UsbManager.EXTRA_PERMISSION_GRANTED, false)) {
             openAccessory(accessory);
@@ -106,7 +106,7 @@ public abstract class ArduinoBaseActivity extends Activity implements Runnable {
           permissionEnabled = false;
         }
       } else if (UsbManager.ACTION_USB_ACCESSORY_DETACHED.equals(action)) {
-        UsbAccessory accessory = UsbManager.getAccessory(intent);
+        final UsbAccessory accessory = UsbManager.getAccessory(intent);
         if (accessory != null && accessory.equals(usbAccessory)) {
           closeAccessory();
         }
@@ -114,11 +114,11 @@ public abstract class ArduinoBaseActivity extends Activity implements Runnable {
     }
   };
 
-  private void openAccessory(UsbAccessory accessory) {
+  private void openAccessory(final UsbAccessory accessory) {
     fileDescriptor = usbManager.openAccessory(accessory);
     if (fileDescriptor != null) {
       usbAccessory = accessory;
-      FileDescriptor descriptor = fileDescriptor.getFileDescriptor();
+      final FileDescriptor descriptor = fileDescriptor.getFileDescriptor();
       inputStream = new FileInputStream(descriptor);
       outputStream = new FileOutputStream(descriptor);
       new Thread(this).start();
@@ -127,7 +127,11 @@ public abstract class ArduinoBaseActivity extends Activity implements Runnable {
       Log.i(TAG, "accessory closed");
     }
   }
-  
+
+  protected void onHandleDeviceResponse(final String text) {
+    getHandler().handleMessage(Message.obtain(getHandler(), MESSAGE_DISPLAY, text));
+  }
+
   @Override
   public void run() {
     Thread.yield();
@@ -137,16 +141,16 @@ public abstract class ArduinoBaseActivity extends Activity implements Runnable {
     while (ret >= 0) {
       try {
         ret = inputStream.read(buffer);
-      } catch (IOException e) {
+      } catch (final IOException e) {
         Utils.logThrowable(TAG, e);
         break;
       }
-      
+
       if (ret > 0) {
         final String str = new String(buffer, 0, ret);
-        getHandler().handleMessage(Message.obtain(getHandler(), MESSAGE_DISPLAY, str));
+        onHandleDeviceResponse(str);
 //        runOnUiThread(new Runnable() {
-//          
+//
 //          @Override
 //          public void run() {
 //            Toast.makeText(ArduinoBaseActivity.this, str, Toast.LENGTH_SHORT);
@@ -155,7 +159,7 @@ public abstract class ArduinoBaseActivity extends Activity implements Runnable {
       }
     }
   }
-  
+
   protected abstract Handler getHandler();
 
   private void closeAccessory() {
@@ -163,7 +167,7 @@ public abstract class ArduinoBaseActivity extends Activity implements Runnable {
       if (fileDescriptor != null) {
         fileDescriptor.close();
       }
-    } catch (IOException ex) {
+    } catch (final IOException ex) {
       Log.i(TAG, ex.getMessage());
     } finally {
       fileDescriptor = null;
