@@ -56,7 +56,7 @@ public class ResponseParserTask {
     if (builder == null) { return; }
     final String text = filterString(response);
     if (text != null) {
-      final List<UIDirective> directions = command.parser.parse(response);
+      final List<UIDirective> directions = command.parser.parse(text);
       builder.publishParseResults(directions);
     }
   }
