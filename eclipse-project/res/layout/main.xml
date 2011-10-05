@@ -19,14 +19,6 @@
         android:prompt="@string/command_prompt"
         />
           
-    <EditText
-      android:id="@+id/edit"
-      android:singleLine="true"
-      android:layout_height="wrap_content"
-      android:layout_width="match_parent"
-      android:layout_margin="5dp"
-      />
-      
     <Button
         android:id="@+id/send"
         android:layout_width="fill_parent"
@@ -35,15 +27,6 @@
         android:layout_margin="5dp"
         />
         
-    <TextView
-      android:id="@+id/text"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:layout_margin="5dp"
-      android:background="#ffffff"
-      android:textColor="#000000"
-      />
-     
     <LinearLayout
         android:id="@+id/response_container" 
         android:orientation="vertical"

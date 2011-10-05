@@ -1,16 +1,12 @@
 package com.stanfy.arduino;
 
-import java.io.IOException;
-
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -25,8 +21,8 @@ public class ArduinoRequestActivity extends ArduinoBaseActivity implements
   private static final String TAG = "RequestA";
 
   private Button button;
-  private EditText input;
-  private TextView output;
+
+  private Spinner spinner;
 
   /** Response container. */
   private ViewGroup responseContainer;
@@ -78,12 +74,10 @@ public class ArduinoRequestActivity extends ArduinoBaseActivity implements
 
     button = (Button) findViewById(R.id.send);
     button.setOnClickListener(this);
-    input = (EditText) findViewById(R.id.edit);
-    output = (TextView) findViewById(R.id.text);
 
     setupResponseContainer((ViewGroup)findViewById(R.id.response_container));
 
-    final Spinner spinner = (Spinner)findViewById(R.id.command_spinner);
+    spinner = (Spinner)findViewById(R.id.command_spinner);
     spinner.setAdapter(new CommandsAdapter(this));
   }
 
@@ -91,13 +85,16 @@ public class ArduinoRequestActivity extends ArduinoBaseActivity implements
   public void onClick(final View v) {
     if (v.getId() == R.id.send) {
       try {
-        if (inputStream != null && !TextUtils.isEmpty(input.getText())) {
-          outputStream.write(input.getText().toString().getBytes());
+        final Command c = Command.values()[spinner.getSelectedItemPosition()];
+        if (inputStream != null) {
+          outputStream.write((c.getCommand() + "\n").getBytes());
           outputStream.flush();
-          input.setText("");
         }
-      } catch (final IOException e) {
-        output.setText(Utils.logThrowable(TAG, e) + "\n");
+      } catch (final Exception e) {
+        final TextView view = new TextView(this);
+        view.setText(Utils.logThrowable(TAG, e) + "\n");
+        responseContainer.removeAllViews();
+        responseContainer.addView(view);
       }
     }
   }
