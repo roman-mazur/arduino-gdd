@@ -38,8 +38,12 @@ char serInString[bufferSize];  // array that will hold the different bytes  100=
                         // -> you must state how long the array will be else it won't work.
 int  serInIndx  = 0;    // index of serInString[] in which to insert the next incoming byte
 int  serOutIndx = 0;    // index of the outgoing serInString[] array;
-
-
+byte mac[] = { 0x20, 0xCF, 0x30, 0x9C, 0x39, 0x2A };
+byte ip[] = { 10,1,1,30 };
+byte gateway[] = { 10,1,1,1 };
+byte subnet[] = { 255, 255, 255, 0 };
+byte server[4];
+byte inited;
 /*read a string from the serial and store it in an array
 //you must supply the array variable and the index count
 void readSerialString (char *strArray, int indx) {
@@ -93,6 +97,15 @@ void setup() {
 }
 
 void processAccInput(byte* msg, int len) {
+  if(!inited) {
+    server[0] = msg[0];
+    server[1] = msg[1];
+    server[2] = msg[2];
+    server[3] = msg[3];
+    inited = 1;
+    Serial.println("Server ip defined");
+    return;
+  }  
   Serial.print("Read bytes: ");
   Serial.println(len);
   Serial.println("%%Input from acc:%%");

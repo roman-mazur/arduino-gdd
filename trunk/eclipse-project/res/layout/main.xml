@@ -11,6 +11,20 @@
       android:layout_height="fill_parent"
       >
     
+    <EditText
+        android:id="@+id/ip_text"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:hint="@string/server_ip"
+        />
+        
+    <Button
+        android:id="@+id/send_ip"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:text="@string/send_ip"
+        />    
+    
     <Spinner 
         android:id="@+id/command_spinner"
         android:layout_width="fill_parent"
