@@ -41,6 +41,13 @@
         android:text="@string/send"
         android:layout_margin="5dp"
         />
+    <Button
+        android:id="@+id/clear"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/clear"
+        android:layout_margin="5dp"
+        />
         
     <LinearLayout
         android:id="@+id/response_container" 

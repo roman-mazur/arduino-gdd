@@ -6,4 +6,5 @@
     <string name="command_prompt">Select a command</string>
     <string name="server_ip">Servers ip</string>
     <string name="send_ip">Send ip</string>
+    <string name="clear">Clear</string>
 </resources>

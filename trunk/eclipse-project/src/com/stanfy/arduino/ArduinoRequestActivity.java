@@ -1,5 +1,6 @@
 package com.stanfy.arduino;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -82,6 +83,8 @@ public class ArduinoRequestActivity extends ArduinoBaseActivity implements
     sendIp.setOnClickListener(this);
     ipText = (EditText) findViewById(R.id.ip_text);
 
+    findViewById(R.id.clear).setOnClickListener(this);
+
     setupResponseContainer((ViewGroup)findViewById(R.id.response_container));
 
     spinner = (Spinner)findViewById(R.id.command_spinner);
@@ -117,13 +120,18 @@ public class ArduinoRequestActivity extends ArduinoBaseActivity implements
           outputStream.write(getServersIp());
           outputStream.flush();
           final TextView view = new TextView(this);
-          view.setText("IP: " + getServersIp());
+          view.setText("Router IP: " + ipText.getText().toString());
+          view.setTextColor(Color.WHITE);
           responseContainer.addView(view);
         }
+      }
+      if (v.getId() == R.id.clear) {
+        responseContainer.removeAllViews();
       }
     } catch (final Exception e) {
       final TextView view = new TextView(this);
       view.setText(Utils.logThrowable(TAG, e) + "\n");
+      view.setTextColor(Color.RED);
       responseContainer.removeAllViews();
       responseContainer.addView(view);
     }
