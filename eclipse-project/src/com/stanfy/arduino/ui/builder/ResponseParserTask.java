@@ -30,6 +30,8 @@ public class ResponseParserTask {
   public static enum Command {
     /** <code>show hardware</code>. */
     SHOW_HARDWARE(new HardwareParser(), "show hardware");
+    ///** <code>HELLO</code>. */
+    //HELLO(new HelloParser(), "hello");
 
     final Parser parser;
     final String command;
