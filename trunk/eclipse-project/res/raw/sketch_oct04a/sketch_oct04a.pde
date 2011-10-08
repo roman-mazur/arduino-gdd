@@ -46,14 +46,9 @@ char netInString[bufferSize];
 int netInIndx = 0;
 int netOutIndx = 0;
 
-byte mac[] = { 
-  0x20, 0xCF, 0x30, 0x9C, 0x39, 0x2A };
-byte ip[] = { 
-  10,1,1,30 };
-byte gateway[] = { 
-  10,1,1,1 };
-byte subnet[] = { 
-  255, 255, 255, 0 };
+byte mac[] = { 0x20, 0xCF, 0x30, 0x9C, 0x39, 0x2A };
+byte subnet[] = { 255, 255, 255, 0 };
+byte ip[4];
 byte server[4];
 byte inited;
 
@@ -127,9 +122,6 @@ void setup() {
   Serial.begin(9600);
   Serial.println("Running");
 
-  Ethernet.begin(mac, ip);
-  Serial.println("Ethernet configured");
-
   pinMode(13, OUTPUT);   
 
   acc.powerOn();  
@@ -141,6 +133,14 @@ void processAccInput(byte* msg, int len) {
     server[1] = msg[1];
     server[2] = msg[2];
     server[3] = msg[3];
+    ip[0] = server[0];
+    ip[1] = server[1];
+    ip[2] = server[2];
+    ip[3] = server[3] + 1;
+    
+    Ethernet.begin(mac, ip);
+    Serial.println("Ethernet configured");
+    
     inited = 1;
     Serial.print((char)('0' + server[0]));
     Serial.print((char)('0' + server[1]));
