@@ -1,6 +1,7 @@
 package com.stanfy.arduino.ui.builder;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -11,6 +12,7 @@ import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.URLSpan;
+import android.util.Log;
 
 /**
  * @author Roman Mazur (Stanfy - http://www.stanfy.com)
@@ -18,11 +20,11 @@ import android.text.style.URLSpan;
  */
 public class HardwareParser implements Parser {
 
-  private static final Pattern TECH_SUPPORT_PATTERN = Pattern.compile("^Technical\\sSupport:\\s(http://.+)", Pattern.MULTILINE | Pattern.DOTALL);
-  private static final Pattern TECH_SUPPORT_PATTERN2 = Pattern.compile(".*Technical\\s*Support:\\s*(http://.+).*", Pattern.MULTILINE | Pattern.DOTALL);
-  private static final Pattern PATTERN1 = Pattern.compile("^.*$", Pattern.MULTILINE);
+  //private static final Pattern TECH_SUPPORT_PATTERN = Pattern.compile(".*Technical\\sSupport:\\s(http://.+)\n");
+  private static final Pattern TECH_SUPPORT_PATTERN = Pattern.compile("Technical\\s*Support:\\s*(http://[a-zA-Z\\.0-9&\\?=]+)\\s*");
+  private static final Pattern PATTERN1 = Pattern.compile(".*[\\r\\n]*");
   private static final Pattern PATTERN2 = Pattern.compile("^.*", Pattern.MULTILINE | Pattern.DOTALL);
-  private static final Pattern COMPILED_PATTERN = Pattern.compile(".*Compiled\\s(.+)\\sby\\s(\\w+).*", Pattern.DOTALL);
+  private static final Pattern COMPILED_PATTERN = Pattern.compile(".*Compiled\\s([a-zA-Z0-9\\s:-]*)\\sby\\s(\\w+).*", Pattern.DOTALL);
   private static final Pattern PROCESSOR_PATTERN = Pattern.compile("^Cisco\\s*([a-zA-Z0-9]*\\s*(\\([a-zA-Z0-9]*\\))?)\\s*processor.*with\\s*([0-9\\.]*[kKmMgGtTpP]*)\\s*([a-zA-Z0-9]*)\\s*.*", Pattern.MULTILINE | Pattern.DOTALL);
 
   private static Spannable url(final String label, final String url) {
@@ -47,13 +49,12 @@ public class HardwareParser implements Parser {
   }
 
   @Override
-  public List<UIDirective> parse(final String text) {
+  public List<UIDirective> parse(final String input) {
+    final String texts = input.replaceAll("\r\n", "\n").replaceAll("\r", "");
     final ArrayList<UIDirective> result = new ArrayList<UIDirective>();
+    for (final String text : texts.split("\n")) {
+      Log.d("View", Arrays.toString(text.getBytes()));
     Matcher m = TECH_SUPPORT_PATTERN.matcher(text);
-    if (m.matches()) {
-      result.add(new TextViewDirective(url("Tech support", m.group(1))));
-    }
-    m = TECH_SUPPORT_PATTERN2.matcher(text);
     if (m.matches()) {
       result.add(new TextViewDirective(url("Tech support", m.group(1))));
     }
@@ -73,6 +74,8 @@ public class HardwareParser implements Parser {
     if(m.matches()) {
       result.add(new TextViewDirective("2"));
     }
+    }
+
     return result;
   }
 

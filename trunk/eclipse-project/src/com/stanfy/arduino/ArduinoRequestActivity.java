@@ -10,7 +10,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.stanfy.arduino.ui.builder.ResponseParserTask;
 import com.stanfy.arduino.ui.builder.ResponseParserTask.Command;
@@ -37,6 +36,7 @@ public class ArduinoRequestActivity extends ArduinoBaseActivity implements
     public void handleMessage(final Message msg) {
       switch (msg.what) {
         case MESSAGE_DISPLAY:
+          /*
           runOnUiThread(new Runnable() {
 
             @Override
@@ -48,6 +48,7 @@ public class ArduinoRequestActivity extends ArduinoBaseActivity implements
               }
             }
           });
+          */
           break;
         default:
       }
