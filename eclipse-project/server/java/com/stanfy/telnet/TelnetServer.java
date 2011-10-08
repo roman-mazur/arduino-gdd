@@ -2,6 +2,7 @@ package com.stanfy.telnet;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -13,6 +14,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
 import java.nio.charset.Charset;
+import java.util.ArrayList;
 
 /**
  * Telnet server.
@@ -20,10 +22,9 @@ import java.nio.charset.Charset;
  */
 public class TelnetServer {
 
-  private enum Command {
+  private static ArrayList<Command> commands = new ArrayList<TelnetServer.Command>();
 
-    SHOW_HARDWARE("show hardware", "hardware.txt");
-
+  private static class Command {
     final String text;
     final String file;
     private Command(final String text, final String file) {
@@ -39,6 +40,13 @@ public class TelnetServer {
   private static final int BUF_SIZE = 8192;
 
   public static void main(final String[] args) throws IOException {
+    final String[] config = streamToString(new FileInputStream("config")).split("\n");
+    for (int i = 0; i < config.length / 2; i++) {
+      final String cmd = config[i * 2].trim();
+      if (cmd.length() == 0) { break; }
+      commands.add(new Command(cmd, config[i * 2 + 1]));
+    }
+
     final ServerSocket serverSocket = new ServerSocket(8080);
     System.out.println("Start");
     while (true) {
@@ -100,9 +108,9 @@ public class TelnetServer {
     if ("close".equals(cmd)) {
       return null;
     }
-    for (final Command c : Command.values()) {
+    for (final Command c : commands) {
       if (c.text.equals(cmd)) {
-        return streamToString(TelnetServer.class.getResourceAsStream(c.file)) + "\n";
+        return streamToString(new FileInputStream(c.file)) + "\n";
       }
     }
     return "Unknown\n";
