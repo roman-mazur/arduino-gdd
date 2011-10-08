@@ -77,13 +77,16 @@ public class TelnetServer {
         command.getChars(0, cIndex, cmdChars, 0);
         command.delete(0, cIndex + 1);
         final String cmd = new String(cmdChars).trim();
-        writer.write(processCommand(cmd));
+        final String output = processCommand(cmd);
+        if (output == null) { break; }
+        writer.write(output);
         writer.write("Router>");
         writer.flush();
       }
 
       System.out.println("Client finished");
       writer.close();
+      reader.close();
     } catch (final SocketException e) {
       System.out.println(e.getMessage());
     } catch (final IOException e) {
@@ -94,6 +97,9 @@ public class TelnetServer {
   private static String processCommand(final String cmd) throws IOException {
     System.out.println(cmd);
     if ("halt".equals(cmd)) { System.exit(0); }
+    if ("close".equals(cmd)) {
+      return null;
+    }
     for (final Command c : Command.values()) {
       if (c.text.equals(cmd)) {
         return streamToString(TelnetServer.class.getResourceAsStream(c.file)) + "\n";
