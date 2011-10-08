@@ -16,6 +16,7 @@
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
         android:hint="@string/server_ip"
+        android:text="10.1.1.15"
         />
         
     <Button

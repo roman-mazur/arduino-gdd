@@ -10,7 +10,7 @@ AndroidAccessory acc("Stanfy",
 		     "0000000212345678");
 
 /* ------------------------------------------------
-* SERIAL COM - HANDELING MULTIPLE BYTES inside ARDUINO - 03_function development
+* SERIAL COM - HANDELING MULTIPLE BYTES inside ARDUINO - 03_function development    
 * by beltran berrocal
 *
 * this prog establishes a connection with the pc and waits for it to send him
@@ -43,7 +43,7 @@ byte ip[] = { 10,1,1,30 };
 byte gateway[] = { 10,1,1,1 };
 byte subnet[] = { 255, 255, 255, 0 };
 byte server[4];
-byte inited;
+byte inited = 0;
 /*read a string from the serial and store it in an array
 //you must supply the array variable and the index count
 void readSerialString (char *strArray, int indx) {
