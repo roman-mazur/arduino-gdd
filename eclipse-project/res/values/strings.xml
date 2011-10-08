@@ -4,4 +4,6 @@
     <string name="app_name">ArduinoTesting</string>
     <string name="send">Send</string>
     <string name="command_prompt">Select a command</string>
+    <string name="server_ip">Servers ip</string>
+    <string name="send_ip">Send ip</string>
 </resources>
