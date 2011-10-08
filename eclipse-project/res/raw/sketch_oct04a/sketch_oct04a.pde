@@ -32,8 +32,9 @@ AndroidAccessory acc("Stanfy",
 *
 * --------------------------------------------------- */
 
-int  serIn;             // var that will hold the bytes-in read from the serialBuffer
-char serInString[100];  // array that will hold the different bytes  100=100characters;
+const int bufferSize = 256;
+
+char serInString[bufferSize];  // array that will hold the different bytes  100=100characters;
                         // -> you must state how long the array will be else it won't work.
 int  serInIndx  = 0;    // index of serInString[] in which to insert the next incoming byte
 int  serOutIndx = 0;    // index of the outgoing serInString[] array;
@@ -60,36 +61,25 @@ void readSerialString (char *strArray, int indx) {
 //this func uses globally set variable so it's not so reusable
 //I need to find the right syntax to be able to pass to the function 2 parameters:
 // the stringArray and (eventually) the index count
-void readSerialString () {
-    int sb;   
-    if(Serial.available()) { 
-       //Serial.print("reading Serial String: ");     //optional confirmation
-       while (Serial.available()){ 
-          sb = Serial.read();             
-          serInString[serInIndx] = sb;
-          serInIndx++;
-          //serialWrite(sb);                        //optional confirmation
-       }
-       //Serial.println();
-    }  
+void readSerialString() {
+  int sb;
+  serInIndx = 0; // reset the buffer  
+  while (Serial.available()) { 
+    sb = Serial.read();             
+    serInString[serInIndx++] = sb;
+    //serialWrite(sb);                        //optional confirmation
+  }
 }
 
 //print the string all in one time
 //this func as well uses global variables
 void printSerialString() {
-   if( serInIndx > 0) {
-      Serial.print("Arduino memorized that you said: ");     
-      //loop through all bytes in the array and print them out
-      for(serOutIndx=0; serOutIndx < serInIndx; serOutIndx++) {
-          Serial.print( serInString[serOutIndx] );    //print out the byte at the specified index
-          //serInString[serOutIndx] = "";            //optional: flush out the content
-      }        
-      //reset all the functions to be able to fill the string back with content
-      serOutIndx = 0;
-      serInIndx  = 0;
-      Serial.println();
-   }
-
+  Serial.print("Arduino memorized that you said: ");     
+  //loop through all bytes in the array and print them out
+  for(int i = 0; i < serInIndx; i++) {
+    Serial.print(serInString[i]);    //print out the byte at the specified index
+  }        
+  Serial.println();
 }
 
 
@@ -102,49 +92,35 @@ void setup() {
   acc.powerOn();  
 }
 
+void processAccInput(byte* msg, int len) {
+  Serial.print("Read bytes: ");
+  Serial.println(len);
+  Serial.println("%%Input from acc:%%");
+  Serial.write(msg, len);
+  Serial.println();
+}
+
 void loop () {
   //simple feedback from Arduino
   
   //read the serial port and create a string out of what you read
-  //readSerialString(serInString, serInIndx);
   readSerialString();
   
   //do somenthing else perhaps wait for other data or read another Serial string
   byte msg[100];
   if (acc.isConnected()) {
     digitalWrite(13, HIGH);
-    //Serial.println ("Accessory is connected");
     int len = acc.read(msg, sizeof(msg), 1);
-    Serial.print("Readed bytes: ");
-    Serial.println(len);
-    if (len > 0) {
-      Serial.write(msg, len);
-      Serial.println();
-     }
-    
+    if (len > 0) { processAccInput(msg, len); }
   } else {
     digitalWrite(13, LOW);
-    //Serial.println ("Accessory is not connected");
   }
   
-  //try to print out collected information. it will do it only if there actually is some info.
-//  printSerialString();
-   if( serInIndx > 0) {
-     acc.write(serInString, serInIndx);
-     
-      Serial.print("Arduino memorized that you said: ");     
-      //loop through all bytes in the array and print them out
-      for(serOutIndx=0; serOutIndx < serInIndx; serOutIndx++) {
-          Serial.print( serInString[serOutIndx] );    //print out the byte at the specified index
-          //serInString[serOutIndx] = "";            //optional: flush out the content
-      }        
-      //reset all the functions to be able to fill the string back with content
-      serOutIndx = 0;
-      serInIndx  = 0;
-      Serial.println();
-   }
+  // transmit data to the accessory
+  if (serInIndx > 0) {
+    acc.write(serInString, serInIndx);
+    printSerialString();
+  }
   
-  //slows down the visualization in the terminal
-  delay(1000);
 }
 

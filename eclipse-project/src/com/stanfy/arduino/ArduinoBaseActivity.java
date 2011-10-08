@@ -149,6 +149,7 @@ public abstract class ArduinoBaseActivity extends Activity implements Runnable {
 
       if (ret > 0) {
         final String str = new String(buffer, 0, ret);
+        Log.d("123123", str);
         onHandleDeviceResponse(str);
       }
     }
