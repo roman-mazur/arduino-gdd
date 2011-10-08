@@ -18,9 +18,9 @@ import android.text.style.URLSpan;
  */
 public class HardwareParser implements Parser {
 
-  private static final Pattern TECH_SUPPORT_PATTERN = Pattern.compile("Technical\\sSupport:\\s(http://.+)\\n");
-  private static final Pattern PATTERN1 = Pattern.compile(".*\\n");
-  private static final Pattern PATTERN2 = Pattern.compile(".*", Pattern.CANON_EQ);
+  private static final Pattern TECH_SUPPORT_PATTERN = Pattern.compile("^Technical\\sSupport:\\s(http://.+)$", Pattern.MULTILINE | Pattern.DOTALL);
+  private static final Pattern PATTERN1 = Pattern.compile("^.*$", Pattern.MULTILINE);
+  private static final Pattern PATTERN2 = Pattern.compile(".*", Pattern.MULTILINE);
   private static final Pattern COMPILED_PATTERN = Pattern.compile("Compiled\\s(.+)\\sby\\s(\\w+)\\n");
   private static final Pattern PROCESSOR_PATTERN = Pattern.compile("Cisco\\s*([a-zA-Z0-9]*\\s*(\\([a-zA-Z0-9]*\\))?)\\s*processor.*with\\s*([0-9\\.]*[kKmMgGtTpP]*)\\s*([a-zA-Z0-9]*)\\s*.*\\n");
 
