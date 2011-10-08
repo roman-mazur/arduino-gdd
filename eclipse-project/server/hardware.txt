@@ -1,6 +1,5 @@
 Cisco Internetwork Operating System Software
-IOS (tm) C805 Software (C805-Y6-MW), Version 12.2(15)T12,  RELEASE SOFTWARE (fc1
-)
+IOS (tm) C805 Software (C805-Y6-MW), Version 12.2(15)T12,  RELEASE SOFTWARE (fc1)
 Technical Support: http://www.cisco.com/techsupport
 Copyright (c) 1986-2004 by cisco Systems, Inc.
 Compiled Thu 25-Mar-04 05:37 by cmong
