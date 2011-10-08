@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.stanfy.arduino.ui.builder.ResponseParserTask;
 import com.stanfy.arduino.ui.builder.ResponseParserTask.Command;
@@ -36,17 +37,17 @@ public class ArduinoRequestActivity extends ArduinoBaseActivity implements
     public void handleMessage(final Message msg) {
       switch (msg.what) {
         case MESSAGE_DISPLAY:
-//          runOnUiThread(new Runnable() {
-//
-//            @Override
-//            public void run() {
-//              if (msg.obj == null) {
-//                output.append("Nothing to display\n");
-//              } else {
-//                output.append(msg.obj.toString() + "\n");
-//              }
-//            }
-//          });
+          runOnUiThread(new Runnable() {
+
+            @Override
+            public void run() {
+              if (msg.obj == null) {
+                Toast.makeText(ArduinoRequestActivity.this, "", Toast.LENGTH_SHORT).show();
+              } else {
+                Toast.makeText(ArduinoRequestActivity.this, msg.obj.toString(), Toast.LENGTH_SHORT).show();
+              }
+            }
+          });
           break;
         default:
       }
@@ -85,18 +86,18 @@ public class ArduinoRequestActivity extends ArduinoBaseActivity implements
     spinner = (Spinner)findViewById(R.id.command_spinner);
     spinner.setAdapter(new CommandsAdapter(this));
   }
-  
+
   public byte[] getServersIp() {
-    
-    String ip = ipText.getText().toString();
-    String[] parsed = ip.split("\\.");
-    byte[] parsedByte = new byte[4];
-    
+
+    final String ip = ipText.getText().toString();
+    final String[] parsed = ip.split("\\.");
+    final byte[] parsedByte = new byte[4];
+
     for(int i = 0; i < 4; i++) {
-      int parsedNumber = Integer.parseInt(parsed[i]);
+      final int parsedNumber = Integer.parseInt(parsed[i]);
       parsedByte[i] = (byte)parsedNumber;
     }
-   
+
     return parsedByte;
   }
 
