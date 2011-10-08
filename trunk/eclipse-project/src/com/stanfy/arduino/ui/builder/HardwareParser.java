@@ -38,8 +38,8 @@ public class HardwareParser implements Parser {
   }
 
   private static Spannable processorInfo(final String model, final String memorySize, final String memoryUnits) {
-    final String pattern = "<font color=\"green\">Processor:</font> <font color=\"grey\">Cisco %s</font><br/>" +
-    		"<font color=\"green\">Virtual memory:</font> <font color=\"grey\">%s %s</font><br/>";
+    final String pattern = "<font color=\"#32CD32\">Processor:</font> <font color=\"grey\">Cisco %s</font><br/>" +
+    		"<font color=\"#32CD32\">Virtual memory:</font> <font color=\"grey\">%s %s</font><br/>";
     return new SpannableString(Html.fromHtml(String.format(pattern, model, memorySize, memoryUnits)));
   }
 
