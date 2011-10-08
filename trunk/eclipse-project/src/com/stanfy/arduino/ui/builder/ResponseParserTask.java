@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import android.util.Log;
 import android.view.ViewGroup;
 
 /**
@@ -15,7 +16,7 @@ public class ResponseParserTask {
   private static final String SEPARATOR = "Router>";
 
   /** Errors pattern. */
-  private static final Pattern ERRORS = Pattern.compile("%Error.+\\n");
+  private static final Pattern ERRORS = Pattern.compile("%.+\\n");
 
   /** Builder. */
   private UIBuilder builder;
@@ -51,6 +52,7 @@ public class ResponseParserTask {
     final int index = text.indexOf(SEPARATOR);
     if (index == -1) {
       currentBuffer.append(text);
+      Log.d("123123", "Continue");
       return null;
     }
     String response = text.substring(0, index);
@@ -61,8 +63,10 @@ public class ResponseParserTask {
     if (index < text.length() - SEPARATOR.length() - 1) {
       currentBuffer.append(text.substring(index + SEPARATOR.length()));
     }
+    Log.d("123123", "B: " + response);
     final Matcher m = ERRORS.matcher(response);
     response = m.replaceAll("");
+    Log.d("123123", "A: " + response);
     return response;
   }
 
