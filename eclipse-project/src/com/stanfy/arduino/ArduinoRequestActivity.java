@@ -113,10 +113,12 @@ public class ArduinoRequestActivity extends ArduinoBaseActivity implements
         }
       }
       if(v.getId() == R.id.send_ip) {
-
         if(inputStream != null) {
           outputStream.write(getServersIp());
           outputStream.flush();
+          final TextView view = new TextView(this);
+          view.setText("IP: " + getServersIp());
+          responseContainer.addView(view);
         }
       }
     } catch (final Exception e) {
