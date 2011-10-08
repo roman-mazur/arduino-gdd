@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -20,7 +21,8 @@ public class ArduinoRequestActivity extends ArduinoBaseActivity implements
 
   private static final String TAG = "RequestA";
 
-  private Button button;
+  private Button button, sendIp;
+  private EditText ipText;
 
   private Spinner spinner;
 
@@ -74,28 +76,52 @@ public class ArduinoRequestActivity extends ArduinoBaseActivity implements
 
     button = (Button) findViewById(R.id.send);
     button.setOnClickListener(this);
+    sendIp = (Button) findViewById(R.id.send_ip);
+    sendIp.setOnClickListener(this);
+    ipText = (EditText) findViewById(R.id.ip_text);
 
     setupResponseContainer((ViewGroup)findViewById(R.id.response_container));
 
     spinner = (Spinner)findViewById(R.id.command_spinner);
     spinner.setAdapter(new CommandsAdapter(this));
   }
+  
+  public byte[] getServersIp() {
+    
+    String ip = ipText.getText().toString();
+    String[] parsed = ip.split("\\.");
+    byte[] parsedByte = new byte[4];
+    
+    for(int i = 0; i < 4; i++) {
+      int parsedNumber = Integer.parseInt(parsed[i]);
+      parsedByte[i] = (byte)parsedNumber;
+    }
+   
+    return parsedByte;
+  }
 
   @Override
   public void onClick(final View v) {
-    if (v.getId() == R.id.send) {
-      try {
+    try {
+      if (v.getId() == R.id.send) {
         final Command c = Command.values()[spinner.getSelectedItemPosition()];
         if (inputStream != null) {
           outputStream.write((c.getCommand() + "\n").getBytes());
           outputStream.flush();
         }
-      } catch (final Exception e) {
-        final TextView view = new TextView(this);
-        view.setText(Utils.logThrowable(TAG, e) + "\n");
-        responseContainer.removeAllViews();
-        responseContainer.addView(view);
       }
+      if(v.getId() == R.id.send_ip) {
+
+        if(inputStream != null) {
+          outputStream.write(getServersIp());
+          outputStream.flush();
+        }
+      }
+    } catch (final Exception e) {
+      final TextView view = new TextView(this);
+      view.setText(Utils.logThrowable(TAG, e) + "\n");
+      responseContainer.removeAllViews();
+      responseContainer.addView(view);
     }
   }
 
