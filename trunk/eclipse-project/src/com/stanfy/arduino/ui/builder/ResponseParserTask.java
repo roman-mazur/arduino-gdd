@@ -29,20 +29,32 @@ public class ResponseParserTask {
    */
   public static enum Command {
     /** <code>show hardware</code>. */
-    SHOW_HARDWARE(new HardwareParser(), "show hardware");
+    SHOW_HARDWARE(new HardwareParser(), "show hardware", "Hardware info"),
+    SHOW_IP(new ShowIpOSPFParser(), "show ip ospf interface ethernet 0", "Show IP OSPF for 0 int");
     ///** <code>HELLO</code>. */
     //HELLO(new HelloParser(), "hello");
 
     final Parser parser;
     final String command;
+    final String text;
 
-    private Command(final Parser p, final String command) {
+    private Command(final Parser p, final String command, final String text) {
       this.parser = p;
       this.command = command;
+      this.text = text;
     }
 
     /** @return the command */
     public String getCommand() { return command; }
+    public String getText() { return text; }
+
+    public static String[] titles() {
+      final String[] result = new String[values().length];
+      for (final Command c : values()) {
+        result[c.ordinal()] = c.text;
+      }
+      return result;
+    }
 
   }
 

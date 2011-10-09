@@ -27,6 +27,8 @@ public class ArduinoRequestActivity extends ArduinoBaseActivity implements
 
   private Spinner spinner;
 
+  private Command lastCommand;
+
   /** Response container. */
   private ViewGroup responseContainer;
 
@@ -67,8 +69,8 @@ public class ArduinoRequestActivity extends ArduinoBaseActivity implements
   @Override
   protected void onHandleDeviceResponse(final String text) {
     super.onHandleDeviceResponse(text);
-    if (responseContainer != null) {
-      responseParserTask.displayResponse(Command.SHOW_HARDWARE, text);
+    if (responseContainer != null && lastCommand != null) {
+      responseParserTask.displayResponse(lastCommand, text);
     }
   }
 
@@ -111,6 +113,7 @@ public class ArduinoRequestActivity extends ArduinoBaseActivity implements
       if (v.getId() == R.id.send) {
         final Command c = Command.values()[spinner.getSelectedItemPosition()];
         if (inputStream != null) {
+          lastCommand = c;
           outputStream.write((c.getCommand() + "\n").getBytes());
           outputStream.flush();
         }

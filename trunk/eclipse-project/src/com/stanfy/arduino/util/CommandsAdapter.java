@@ -9,10 +9,10 @@ import com.stanfy.arduino.ui.builder.ResponseParserTask.Command;
 /**
  * @author Olexandr Tereshchuk (Stanfy - http://www.stanfy.com)
  */
-public class CommandsAdapter extends ArrayAdapter<Command> {
+public class CommandsAdapter extends ArrayAdapter<String> {
 
   public CommandsAdapter(final Context context) {
-    super(context, R.layout.command_item, Command.values());
+    super(context, R.layout.command_item, Command.titles());
   }
 
 }

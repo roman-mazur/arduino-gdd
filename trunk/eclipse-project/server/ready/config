@@ -2,3 +2,5 @@ show hardware
 hardware.txt
 hello
 hello.txt
+show ip ospf interface ethernet 0
+showip.txt
