@@ -1,0 +1,11 @@
+Ethernet 0 is up, line protocol is up
+Internet Address 192.168.254.202, Mask 255.255.255.0, Area 0.0.0.0
+AS 201, Router ID 192.168.99.1, Network Type BROADCAST, Cost: 10
+Transmit Delay is 1 sec, State OTHER, Priority 1
+Designated Router id 192.168.254.10, Interface address 192.168.254.10
+Backup Designated router id 192.168.254.28, Interface addr 192.168.254.28
+Timer intervals configured, Hello 10, Dead 60, Wait 40, Retransmit 5
+Hello due in 0:00:05
+Neighbor Count is 8, Adjacent neighbor count is 2
+  Adjacent with neighbor 192.168.254.28  (Backup Designated Router)
+  Adjacent with neighbor 192.168.254.10  (Designated Router)
